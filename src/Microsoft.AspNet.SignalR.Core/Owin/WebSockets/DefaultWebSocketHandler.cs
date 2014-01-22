@@ -9,14 +9,12 @@ namespace Microsoft.AspNet.SignalR.WebSockets
 {
     internal class DefaultWebSocketHandler : WebSocketHandler, IWebSocket
     {
-        // 64KB default max incoming message size
-        private const int _maxIncomingMessageSize = 64 * 1024;
         private static readonly byte[] _zeroByteBuffer = new byte[0];
         private readonly IWebSocket _webSocket;
         private volatile bool _closed;
 
-        public DefaultWebSocketHandler()
-            : base(_maxIncomingMessageSize)
+        public DefaultWebSocketHandler(int? maxIncomingMessageSize)
+            : base(maxIncomingMessageSize)
         {
             _webSocket = this;
 
