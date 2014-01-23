@@ -36,11 +36,19 @@ namespace Microsoft.AspNet.SignalR.ServiceBus
             {
                 _namespaceManager = NamespaceManager.CreateFromConnectionString(_connectionString);
                 _factory = MessagingFactory.CreateFromConnectionString(_connectionString);
-                _factory.RetryPolicy = RetryExponential.Default;
             }
             catch (ConfigurationErrorsException ex)
             {
                 _trace.TraceError("Invalid connection string: {0}", ex.Message);
+            }
+
+            if (configuration.RetryPolicy != null)
+            {
+                _factory.RetryPolicy = configuration.RetryPolicy;
+            }
+            else
+            {
+                _factory.RetryPolicy = RetryExponential.Default;
             }
 
             _idleSubscriptionTimeout = configuration.IdleSubscriptionTimeout;
